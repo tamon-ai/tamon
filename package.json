@@ -1,0 +1,41 @@
+{
+  "name": "@tamon-ai/core",
+  "version": "0.1.0",
+  "description": "TAMON — Task Automation & Management Operations Network. Self-hosted AI assistant framework powered by Claude Code.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:fast": "node scripts/build-fast.js",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts"
+  },
+  "keywords": [
+    "ai-assistant",
+    "claude",
+    "discord-bot",
+    "notion",
+    "automation",
+    "self-hosted"
+  ],
+  "author": "BBB <tajima@bbb-and-company.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bbb-build/tamon.git"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.15",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
