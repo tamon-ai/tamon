@@ -39,6 +39,47 @@ TAMON:  Created in Notion — "Prepare slide deck for Acme review"
         Due: Jan 15, 13:00. Priority: High (meeting in <24h).
 ```
 
+## Quick Start
+
+```bash
+npx tamon-ai init my-assistant
+cd my-assistant
+npm install
+```
+
+Edit `.env` — set your Discord bot token, then:
+
+```bash
+npm run dev
+```
+
+Talk to your bot on Discord. That's it.
+
+<details>
+<summary>Or clone from source</summary>
+
+```bash
+git clone https://github.com/tamon-ai/tamon.git && cd tamon
+npm install
+cp .env.example .env   # add your Discord bot token
+npm run build && npm start
+```
+</details>
+
+### Prerequisites & cost
+
+TAMON is **BYOK (Bring Your Own Key)** — you use your own Anthropic account. TAMON itself is free and open-source; the only cost is what you pay Anthropic.
+
+| What you need | Where to get it |
+|---|---|
+| **Node.js 20+** | [nodejs.org](https://nodejs.org) |
+| **Claude Code CLI** | [Install guide](https://docs.anthropic.com/en/docs/claude-code) — requires a Claude Max plan ($100/mo or $200/mo) or Anthropic API credits |
+| **Discord Bot token** | [Discord Developer Portal](https://discord.com/developers/applications) |
+
+TAMON does not proxy your requests, store your credentials, or phone home. Everything runs on your machine.
+
+---
+
 ## Why not just use LangChain / CrewAI / another framework?
 
 Most agent frameworks do the same thing: define tool schemas in JSON → send them to an LLM API → parse the response → call your function → repeat. You're building the agent's hands out of JSON.
@@ -65,7 +106,7 @@ The latency tradeoff is real. Process startup adds ~2 seconds. For rapid-fire to
 
 ## Under the hood
 
-If you've built AI agent systems before, these are the decisions that might interest you. If you just want to use TAMON, skip to [Quick Start](#quick-start).
+If you've built AI agent systems before, these are the decisions that might interest you. If you just want to use TAMON, skip to [Features](#features).
 
 ### Identity injection vs. persistent context
 
@@ -154,38 +195,6 @@ Claude Code stdout → buffer → 1.5s throttle → Discord message edit
 ```
 
 Phase detection on stderr identifies whether the AI is thinking, using a tool, or generating text — so the UI can indicate state. Messages exceeding Discord's 2000-char limit are automatically split. A typing indicator fires every 8 seconds so the user sees activity during long operations.
-
-## Quick Start
-
-```bash
-npx tamon-ai init my-assistant
-cd my-assistant
-npm install
-```
-
-Edit `.env` — set your Discord bot token, then:
-
-```bash
-npm run dev
-```
-
-Three things you need:
-1. **Node.js 20+**
-2. **Claude Code CLI** — [install guide](https://docs.anthropic.com/en/docs/claude-code)
-3. **Discord Bot token** — [create one here](https://discord.com/developers/applications)
-
-That's it. Talk to your bot on Discord.
-
-<details>
-<summary>Or clone from source</summary>
-
-```bash
-git clone https://github.com/tamon-ai/tamon.git && cd tamon
-npm install
-cp .env.example .env   # add your Discord bot token
-npm run build && npm start
-```
-</details>
 
 ## Features
 
