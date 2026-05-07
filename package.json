@@ -23,7 +23,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bbb-build/tamon.git"
+    "url": "https://github.com/tamon-ai/tamon.git"
+  },
+  "homepage": "https://github.com/tamon-ai/tamon#readme",
+  "bugs": {
+    "url": "https://github.com/tamon-ai/tamon/issues"
   },
   "engines": {
     "node": ">=20.0.0"
@@ -34,7 +38,7 @@
     "dotenv": "^16.4.0"
   },
   "devDependencies": {
-    "@types/node": "^22.19.15",
+    "@types/node": "^22.19.17",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }

@@ -38,6 +38,21 @@ export interface TamonConfig {
     timezone: string;
     logLevel: string;
   };
+  google: {
+    saKeyFile: string;
+    saImpersonateEmail: string;
+    oauthClientId: string;
+    oauthClientSecret: string;
+    oauthRefreshToken: string;
+    calendarId: string;
+  };
+  slack: {
+    botToken: string;
+    userToken: string;
+  };
+  telegram: {
+    botToken: string;
+  };
 }
 
 export function loadConfig(): TamonConfig {
@@ -63,6 +78,21 @@ export function loadConfig(): TamonConfig {
       name: optional("TAMON_NAME", "TAMON"),
       timezone: optional("TZ", "UTC"),
       logLevel: optional("LOG_LEVEL", "info"),
+    },
+    google: {
+      saKeyFile: optional("GOOGLE_SA_KEY_FILE"),
+      saImpersonateEmail: optional("GOOGLE_SA_IMPERSONATE_EMAIL"),
+      oauthClientId: optional("GOOGLE_OAUTH_CLIENT_ID"),
+      oauthClientSecret: optional("GOOGLE_OAUTH_CLIENT_SECRET"),
+      oauthRefreshToken: optional("GOOGLE_OAUTH_REFRESH_TOKEN"),
+      calendarId: optional("GOOGLE_CALENDAR_ID", "primary"),
+    },
+    slack: {
+      botToken: optional("SLACK_BOT_TOKEN"),
+      userToken: optional("SLACK_USER_TOKEN"),
+    },
+    telegram: {
+      botToken: optional("TELEGRAM_BOT_TOKEN"),
     },
   };
 }

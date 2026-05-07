@@ -4,6 +4,9 @@ import { createClient, CommandRegistry, respond } from "./core/discord";
 import { ExecutionQueue } from "./core/claude";
 import { initNotion } from "./core/notion";
 import { WebhookServer } from "./core/webhook";
+import { isGoogleConfigured } from "./integrations/google-auth";
+import { isSlackConfigured } from "./integrations/slack";
+import { isTelegramConfigured } from "./integrations/telegram";
 import * as logger from "./utils/logger";
 
 async function main(): Promise<void> {
@@ -14,6 +17,18 @@ async function main(): Promise<void> {
   if (config.notion.apiKey) {
     initNotion(config.notion.apiKey);
     logger.info("[tamon] Notion client initialized");
+  }
+
+  // 利用可能なインテグレーションをログ出力
+  const integrations: string[] = [];
+  if (isGoogleConfigured()) integrations.push("Google (Gmail/Calendar/Drive)");
+  if (isSlackConfigured()) integrations.push("Slack");
+  if (isTelegramConfigured()) integrations.push("Telegram");
+
+  if (integrations.length > 0) {
+    logger.info(`[tamon] Integrations available: ${integrations.join(", ")}`);
+  } else {
+    logger.info("[tamon] No external integrations configured");
   }
 
   const queue = new ExecutionQueue(config.claude.maxConcurrent);
