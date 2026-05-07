@@ -38,19 +38,29 @@ TAMON:  Created in Notion — "Prepare slide deck for Acme review"
         Due: Jan 15, 13:00. Priority: High (meeting in <24h).
 ```
 
-## What makes TAMON different
+## Why another agent framework?
 
-Most AI assistant frameworks give you a chatbot. TAMON gives you an **agent** — one that connects to your actual tools and works autonomously.
+Short answer: this one isn't a wrapper around an LLM API.
 
-| | Chatbots | TAMON |
-|---|---|---|
-| Remembers context | Session only | Persistent (Notion) |
-| Takes action | "Here's how you could..." | Actually does it |
-| Works when you're away | No | Yes — autonomous task execution |
-| Connects to your tools | Via plugins | Native (Gmail, Calendar, Slack, Telegram) |
-| Runs on your infra | Cloud vendor lock-in | Self-hosted, you own everything |
+Most frameworks work like this: define tool schemas → send them to the API → hope the model picks the right one → parse the response → call your function. You're building the agent's hands out of JSON schemas.
 
-**Built from production, not theory.** TAMON's core was extracted from an AI assistant that runs 24/7 managing real business operations — tasks, email, calendar, team coordination, and autonomous workflows. This isn't a weekend prototype; it's battle-tested infrastructure.
+**TAMON spawns [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI processes.** The AI gets a shell session — filesystem, git, curl, databases, package managers — the same tools a developer has. No tool schemas to maintain, no function routing to debug.
+
+```
+Typical framework:   LLM API  →  tool schema matching  →  predefined function  →  response
+TAMON:               Claude Code process (with shell)   →  does whatever is needed →  streams back
+```
+
+This means:
+- **Install `ffmpeg` on the server** and the AI can process video. No integration code to write.
+- **Need to query a database?** It runs `psql`. No ORM wrapper required.
+- **Bug in your code?** It reads the file, edits it, runs the tests, commits the fix.
+
+The tradeoff: each process is stateless. TAMON compensates with **identity injection** — every invocation gets a fully assembled prompt containing personality, context, integration status, and conversation history. Deterministic context, not degrading windows.
+
+> **Built from production.** TAMON's core was extracted from an AI assistant running 24/7 in production — managing tasks, email, calendar, team coordination, and autonomous workflows. The safety mechanisms (circuit breakers, activity gates, process isolation) exist because we hit every failure mode and had to solve them.
+
+**[Read the full architecture doc →](docs/architecture.md)**
 
 ## Quick Start
 
@@ -135,28 +145,37 @@ You (Discord) ──> TAMON (your server)
                     +-- Discord Bot (discord.js)
                     |     \-- Claude Code headless (streaming)
                     |
-                    +-- Notion (tasks, knowledge)
+                    +-- Queue (semaphore, default max 2 concurrent)
                     |
-                    +-- Integrations
-                    |     +-- Gmail
-                    |     +-- Google Calendar
-                    |     +-- Slack
-                    |     \-- Telegram
+                    +-- Notion (tasks, knowledge, persistent memory)
                     |
-                    +-- Autonomy Engine
-                    |     +-- Task scoring & execution
-                    |     \-- Activity gate
+                    +-- Integrations (opt-in via env vars)
+                    |     +-- Gmail, Google Calendar
+                    |     +-- Slack, Telegram
+                    |     \-- Webhook API
                     |
-                    \-- Webhook Server (HTTP API)
+                    \-- Autonomy Engine
+                          +-- Task scoring & execution
+                          +-- Activity gate (won't interrupt conversations)
+                          \-- Circuit breaker (max 2 failures/day per task)
 ```
 
-## How it works
+**How a message flows:**
 
-1. **Message arrives** on Discord
-2. **Queue** manages concurrency (configurable parallel Claude processes)
-3. **Claude Code** executes with full tool access — reads files, runs commands, calls APIs
-4. **Streams** the response back to Discord in real-time
-5. **Autonomous mode** kicks in when you're idle — picks tasks, executes, reports back
+1. Message arrives → queue checks concurrency slots
+2. Identity assembled (personality + integration status + channel context)
+3. Claude Code CLI spawned as child process with full shell access
+4. Response streamed back to Discord in real-time (1.5s update interval)
+5. Process tree cleaned up, queue slot released, next message promoted
+
+**How autonomy works:**
+
+1. Cron triggers task cycle → activity gate checks all channels are idle (5min cooldown)
+2. Tasks fetched and scored (priority × due date proximity × staleness)
+3. Top tasks executed concurrently via Claude Code
+4. Results evaluated → done / needs-review / retry (with failure limit)
+
+Each piece is a single file with a clear interface. [Full architecture deep-dive →](docs/architecture.md)
 
 ## Deploy to production
 
