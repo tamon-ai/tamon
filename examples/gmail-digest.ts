@@ -3,15 +3,18 @@
  * Fetches unread emails and prints a summary.
  *
  * Usage:
- *   GOOGLE_OAUTH_CLIENT_ID=xxx GOOGLE_OAUTH_CLIENT_SECRET=xxx \
- *   GOOGLE_OAUTH_REFRESH_TOKEN=xxx DISCORD_BOT_TOKEN=xxx \
- *     npx tsx examples/gmail-digest.ts
+ *   npm install tamon-ai
+ *   # Set GOOGLE_OAUTH_* or GOOGLE_SA_* env vars in .env
+ *   npx tsx gmail-digest.ts
  */
 
-import { getConfig } from "../src/config";
-import { isGoogleConfigured } from "../src/integrations/google-auth";
-import { getUnreadEmails, searchEmails } from "../src/integrations/gmail";
-import * as logger from "../src/utils/logger";
+import {
+  getConfig,
+  isGoogleConfigured,
+  getUnreadEmails,
+  searchEmails,
+  logger,
+} from "tamon-ai";
 
 async function main(): Promise<void> {
   getConfig();
@@ -39,7 +42,6 @@ async function main(): Promise<void> {
     console.log();
   }
 
-  // Example: search for specific emails
   logger.info("[digest] Searching for emails with attachments...");
   const withAttachments = await searchEmails("has:attachment newer_than:7d", 5);
   logger.info(`[digest] Found ${withAttachments.length} emails with attachments.`);

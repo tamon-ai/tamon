@@ -5,7 +5,7 @@ TAMON can execute tasks autonomously — scoring them by priority and due date, 
 ## Setup
 
 ```typescript
-import { TaskExecutor, NotionTaskSource, defaultScorer, defaultEvaluator } from "tamon-ai/autonomy";
+import { TaskExecutor, NotionTaskSource, defaultScorer, defaultEvaluator } from "tamon-ai";
 
 const source = new NotionTaskSource("your-tasks-database-id");
 
@@ -59,7 +59,7 @@ const myScorer = (task: Task) => {
 Two-phase task preparation: analyze what can be automated, then execute prep work.
 
 ```typescript
-import { TaskPreparator, NotionTaskSource } from "tamon-ai/autonomy";
+import { TaskPreparator, NotionTaskSource } from "tamon-ai";
 
 const preparator = new TaskPreparator({
   taskSource: new NotionTaskSource("your-db-id"),
@@ -77,7 +77,7 @@ await preparator.run();
 Prevents autonomous execution from interrupting active user conversations:
 
 ```typescript
-import { registerActivity, canRunAutonomousTasks, setGate } from "tamon-ai/autonomy";
+import { registerActivity, canRunAutonomousTasks, setGate } from "tamon-ai";
 
 // Call on every user message
 registerActivity(message.channelId);
@@ -98,7 +98,7 @@ setGate(null);   // Return to auto mode
 Implement the `TaskSource` interface for any backend:
 
 ```typescript
-import { TaskSource, Task } from "tamon-ai/autonomy";
+import { TaskSource, Task } from "tamon-ai";
 
 class MyTaskSource implements TaskSource {
   async fetchTasks(): Promise<Task[]> {

@@ -3,14 +3,20 @@
  * The minimal setup — responds to messages using Claude.
  *
  * Usage:
- *   DISCORD_BOT_TOKEN=xxx npx tsx examples/basic-bot.ts
+ *   npm install tamon-ai
+ *   cp .env.example .env  # set DISCORD_BOT_TOKEN
+ *   npx tsx basic-bot.ts
  */
 
 import { Events } from "discord.js";
-import { getConfig } from "../src/config";
-import { createClient, respond, CommandRegistry } from "../src/core/discord";
-import { ExecutionQueue } from "../src/core/claude";
-import * as logger from "../src/utils/logger";
+import {
+  getConfig,
+  createClient,
+  respond,
+  CommandRegistry,
+  ExecutionQueue,
+  logger,
+} from "tamon-ai";
 
 async function main(): Promise<void> {
   const config = getConfig();

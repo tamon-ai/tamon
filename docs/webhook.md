@@ -5,7 +5,7 @@ TAMON includes a built-in HTTP server for dashboards and external integrations.
 ## Setup
 
 ```typescript
-import { WebhookServer } from "tamon-ai/core/webhook";
+import { WebhookServer } from "tamon-ai";
 
 const server = new WebhookServer({ port: 3456, authToken: "secret" });
 

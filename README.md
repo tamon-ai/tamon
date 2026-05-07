@@ -158,10 +158,15 @@ Phase detection on stderr identifies whether the AI is thinking, using a tool, o
 ## Quick Start
 
 ```bash
-git clone https://github.com/tamon-ai/tamon.git && cd tamon
+npx tamon-ai init my-assistant
+cd my-assistant
 npm install
-cp .env.example .env   # add your Discord bot token
-npm run build && npm start
+```
+
+Edit `.env` — set your Discord bot token, then:
+
+```bash
+npm run dev
 ```
 
 Three things you need:
@@ -170,6 +175,17 @@ Three things you need:
 3. **Discord Bot token** — [create one here](https://discord.com/developers/applications)
 
 That's it. Talk to your bot on Discord.
+
+<details>
+<summary>Or clone from source</summary>
+
+```bash
+git clone https://github.com/tamon-ai/tamon.git && cd tamon
+npm install
+cp .env.example .env   # add your Discord bot token
+npm run build && npm start
+```
+</details>
 
 ## Features
 
@@ -180,7 +196,7 @@ TAMON understands natural language. No slash-command memorization required.
 For power users, register custom `!commands`:
 
 ```typescript
-import { CommandRegistry } from "tamon-ai/core/discord";
+import { CommandRegistry } from "tamon-ai";
 
 const commands = new CommandRegistry("!");
 commands.register("deploy", async (msg) => { /* your logic */ });
@@ -273,7 +289,7 @@ Each piece is a single file with a clear interface. No plugin system, no middlew
 
 ```bash
 npm install -g pm2
-pm2 start dist/index.js --name tamon
+pm2 start dist/server.js --name tamon
 pm2 save && pm2 startup
 ```
 

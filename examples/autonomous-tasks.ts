@@ -3,19 +3,19 @@
  * Fetches tasks from a Notion database, scores them, and executes the top ones.
  *
  * Usage:
- *   DISCORD_BOT_TOKEN=xxx NOTION_API_KEY=xxx NOTION_DATABASES=tasks:db-id \
- *     npx tsx examples/autonomous-tasks.ts
+ *   npm install tamon-ai
+ *   # Set NOTION_API_KEY and NOTION_DATABASES=tasks:your-db-id in .env
+ *   npx tsx autonomous-tasks.ts
  */
 
-import { getConfig } from "../src/config";
-import { initNotion } from "../src/core/notion";
 import {
+  getConfig,
+  initNotion,
   TaskExecutor,
   NotionTaskSource,
-  registerActivity,
   canRunAutonomousTasks,
-} from "../src/autonomy";
-import * as logger from "../src/utils/logger";
+  logger,
+} from "tamon-ai";
 
 async function main(): Promise<void> {
   const config = getConfig();
@@ -50,7 +50,6 @@ async function main(): Promise<void> {
     },
   });
 
-  // Check if we should run
   const { allowed, reason } = canRunAutonomousTasks();
   if (!allowed) {
     logger.info(`[auto] Skipping: ${reason}`);

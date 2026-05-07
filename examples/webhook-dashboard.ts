@@ -3,14 +3,17 @@
  * Exposes health, queue status, and a custom notification endpoint.
  *
  * Usage:
- *   DISCORD_BOT_TOKEN=xxx WEBHOOK_PORT=3456 WEBHOOK_AUTH_TOKEN=secret \
- *     npx tsx examples/webhook-dashboard.ts
+ *   npm install tamon-ai
+ *   # Set WEBHOOK_PORT and WEBHOOK_AUTH_TOKEN in .env
+ *   npx tsx webhook-dashboard.ts
  */
 
-import { getConfig } from "../src/config";
-import { ExecutionQueue } from "../src/core/claude";
-import { WebhookServer } from "../src/core/webhook";
-import * as logger from "../src/utils/logger";
+import {
+  getConfig,
+  ExecutionQueue,
+  WebhookServer,
+  logger,
+} from "tamon-ai";
 
 async function main(): Promise<void> {
   const config = getConfig();
