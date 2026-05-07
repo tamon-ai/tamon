@@ -1,6 +1,6 @@
 {
   "name": "tamon-ai",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "TAMON — Task Automation & Management Operations Network. Self-hosted AI assistant framework powered by Claude Code.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,6 +17,10 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build",
+    "test": "vitest run",
+    "test:e2e": "vitest run --config vitest.e2e.config.ts",
+    "test:all": "vitest run --config vitest.e2e.config.ts --test-timeout 300000",
+    "test:watch": "vitest",
     "build": "tsc",
     "build:fast": "node scripts/build-fast.js",
     "typecheck": "tsc --noEmit",
@@ -52,6 +56,7 @@
   "devDependencies": {
     "@types/node": "^22.19.17",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.5"
   }
 }
