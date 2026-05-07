@@ -8,7 +8,7 @@ A self-hosted AI assistant framework powered by [Claude Code](https://docs.anthr
 
 ## What is TAMON?
 
-TAMON is the open-source core extracted from an AI assistant that has been running 24/7 in production for over a year. It provides the scaffolding to build a personal or team AI assistant that:
+TAMON is the open-source core extracted from a production-tested AI assistant. It provides the scaffolding to build a personal or team AI assistant that:
 
 - **Lives in Discord** — responds to natural language and `!commands`
 - **Thinks with Claude** — executes tasks via Claude Code headless CLI with streaming
