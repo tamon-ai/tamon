@@ -7,6 +7,12 @@ import { WebhookServer } from "./core/webhook";
 import { isGoogleConfigured } from "./integrations/google-auth";
 import { isSlackConfigured } from "./integrations/slack";
 import { isTelegramConfigured } from "./integrations/telegram";
+import { isGitHubConfigured } from "./integrations/github";
+import { isVercelConfigured } from "./integrations/vercel";
+import { isLinearConfigured } from "./integrations/linear";
+import { isSupabaseConfigured } from "./integrations/supabase";
+import { isXConfigured } from "./integrations/x-twitter";
+import { isGA4Configured } from "./integrations/ga4";
 import * as logger from "./utils/logger";
 
 async function main(): Promise<void> {
@@ -22,8 +28,14 @@ async function main(): Promise<void> {
   // 利用可能なインテグレーションをログ出力
   const integrations: string[] = [];
   if (isGoogleConfigured()) integrations.push("Google (Gmail/Calendar/Drive)");
+  if (isGA4Configured()) integrations.push("Google Analytics");
   if (isSlackConfigured()) integrations.push("Slack");
   if (isTelegramConfigured()) integrations.push("Telegram");
+  if (isGitHubConfigured()) integrations.push("GitHub");
+  if (isVercelConfigured()) integrations.push("Vercel");
+  if (isLinearConfigured()) integrations.push("Linear");
+  if (isSupabaseConfigured()) integrations.push("Supabase");
+  if (isXConfigured()) integrations.push("X (Twitter)");
 
   if (integrations.length > 0) {
     logger.info(`[tamon] Integrations available: ${integrations.join(", ")}`);

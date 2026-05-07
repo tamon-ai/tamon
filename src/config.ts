@@ -53,6 +53,31 @@ export interface TamonConfig {
   telegram: {
     botToken: string;
   };
+  ga4: {
+    propertyId: string;
+  };
+  github: {
+    token: string;
+  };
+  vercel: {
+    token: string;
+    teamId: string;
+  };
+  linear: {
+    apiKey: string;
+  };
+  supabase: {
+    url: string;
+    serviceRoleKey: string;
+    managementToken: string;
+  };
+  x: {
+    apiKey: string;
+    apiSecret: string;
+    accessToken: string;
+    accessTokenSecret: string;
+    bearerToken: string;
+  };
 }
 
 export function loadConfig(): TamonConfig {
@@ -93,6 +118,31 @@ export function loadConfig(): TamonConfig {
     },
     telegram: {
       botToken: optional("TELEGRAM_BOT_TOKEN"),
+    },
+    ga4: {
+      propertyId: optional("GA4_PROPERTY_ID"),
+    },
+    github: {
+      token: optional("GITHUB_TOKEN"),
+    },
+    vercel: {
+      token: optional("VERCEL_TOKEN"),
+      teamId: optional("VERCEL_TEAM_ID"),
+    },
+    linear: {
+      apiKey: optional("LINEAR_API_KEY"),
+    },
+    supabase: {
+      url: optional("SUPABASE_URL"),
+      serviceRoleKey: optional("SUPABASE_SERVICE_ROLE_KEY"),
+      managementToken: optional("SUPABASE_MANAGEMENT_TOKEN"),
+    },
+    x: {
+      apiKey: optional("X_API_KEY"),
+      apiSecret: optional("X_API_SECRET"),
+      accessToken: optional("X_ACCESS_TOKEN"),
+      accessTokenSecret: optional("X_ACCESS_TOKEN_SECRET"),
+      bearerToken: optional("X_BEARER_TOKEN"),
     },
   };
 }

@@ -155,6 +155,18 @@ Each Claude Code invocation runs as a child process. Killing it (via process tre
 ### Retry with backoff
 Transient errors (rate limits, 503s, overloaded) trigger exponential backoff retries (3s → 6s, max 2 retries). Non-transient errors fail immediately.
 
+### Git worktree isolation
+
+When multiple concurrent sessions edit files (e.g., two conversations both modifying source code), they'll collide. TAMON solves this with [git worktrees](https://git-scm.com/docs/git-worktree):
+
+- Sessions with file-edit permissions get their own worktree in `/tmp/tamon-worktrees/wt-{random}/`
+- Heavy directories (`node_modules`, `dist`, `.env`, `data/`) are symlinked — each worktree costs ~5MB
+- On completion: `git diff` → `git apply` to the main tree
+- On conflict: `.patch` file saved to `data/worktree-conflict-*.patch` for manual resolution
+- Crash/timeout: changes are rescued before cleanup
+
+Read-only sessions (cron, autonomous tasks) skip worktree creation — zero overhead for the common case.
+
 ### Autonomous safety
 - Activity gate prevents interrupting conversations
 - Per-task failure limits prevent infinite retry loops
