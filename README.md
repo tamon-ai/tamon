@@ -180,7 +180,7 @@ TAMON understands natural language. No slash-command memorization required.
 For power users, register custom `!commands`:
 
 ```typescript
-import { CommandRegistry } from "@tamon-ai/core/core/discord";
+import { CommandRegistry } from "tamon-ai/core/discord";
 
 const commands = new CommandRegistry("!");
 commands.register("deploy", async (msg) => { /* your logic */ });

@@ -1,5 +1,5 @@
 {
-  "name": "@tamon-ai/core",
+  "name": "tamon-ai",
   "version": "0.1.0",
   "description": "TAMON — Task Automation & Management Operations Network. Self-hosted AI assistant framework powered by Claude Code.",
   "main": "dist/index.js",
