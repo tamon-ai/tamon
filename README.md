@@ -1,10 +1,29 @@
 # TAMON
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20-green.svg)](https://nodejs.org)
+[![Claude Code](https://img.shields.io/badge/Powered%20by-Claude%20Code-purple.svg)](https://docs.anthropic.com/en/docs/claude-code)
+
 **Task Automation & Management Operations Network**
 
 A self-hosted AI assistant framework powered by [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Run your own AI assistant on Discord with Notion integration, autonomous task execution, and extensible connectors.
 
 > The name means "one who hears all" (多聞) — from Tamonten (毘沙門天), the Buddhist deity of wisdom and listening.
+
+### What it looks like
+
+```
+You:    What meetings do I have tomorrow?
+TAMON:  You have 3 meetings tomorrow:
+        • 10:00–10:30  Team standup (Google Meet)
+        • 14:00–15:00  Client review — Acme Corp
+        • 17:00–17:30  1:1 with Alice
+        Want me to block focus time around them?
+
+You:    !task Prepare slide deck for Acme review due:tomorrow 13:00
+TAMON:  ✅ Created task in Notion — "Prepare slide deck for Acme review"
+        Due: Jan 15, 13:00. Priority: High (meeting in <24h).
+```
 
 ## What is TAMON?
 
@@ -37,14 +56,13 @@ You (Discord) ──→ TAMON (VPS / server)
 
 ## Quick Start
 
+Get a working assistant in under 2 minutes:
+
 ```bash
-git clone https://github.com/tamon-ai/tamon.git
-cd tamon
+git clone https://github.com/tamon-ai/tamon.git && cd tamon
 npm install
-cp .env.example .env
-# Edit .env with your Discord bot token (minimum requirement)
-npm run build
-npm start
+cp .env.example .env        # Add your Discord bot token
+npm run build && npm start  # That's it — talk to your bot on Discord
 ```
 
 ### Prerequisites
